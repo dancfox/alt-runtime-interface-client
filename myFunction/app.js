@@ -1,7 +1,9 @@
 console.log("******** enter the init block   ********");
 
+let resolved = "No";
+
 function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms)).then(() => {resolved = true});
+  return new Promise((resolve) => setTimeout(resolve, ms)).then(() => {resolved = "Yes!"});
 }
 
 /**
@@ -14,12 +16,16 @@ function sleep(ms) {
  * wakes up prior to invocation.
  */
 exports.initializeFunction = async () => {
+  console.log("******** enter initializeFunction hook ********");
+  console.log("******** Is promised resolved? " + resolved + " ********");
   console.log("******** sleep for 5 seconds... ********")
   let p = await sleep(5000);
   console.log("******** wake up                ********");
 }
 
 exports.handler = async (event, context) => {
-    console.log("^^^^^^^^ enter the handler        ^^^^^^^^^");
-    return 'Hello World!';
+    console.log("******** enter the handler        ********");
+    console.log("******** Is promised resolved? " + resolved + " ********");
+
+    return 'Function complete.';
 }
