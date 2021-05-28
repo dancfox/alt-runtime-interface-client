@@ -10,10 +10,11 @@ In this proof of concept application, we introduce the concept of a lifecycle ho
 The easiest way to review the code is to download the application and then search for the string `dfox`. I have numbered the sequence of changes for review.
 
 ## Run the App Locally
-I have created a couple shell scripts for convenience. Open a terminal and execute
-`./run.sh`
 
-Open a second terminal and execute
-`./curl.sh`
+1. [Install the Runtime Interface Emulator](https://github.com/aws/aws-lambda-runtime-interface-emulator)
+
+2. Open a terminal and execute `./run.sh`
+
+3. Open a second terminal and execute `./curl.sh`
 
 
