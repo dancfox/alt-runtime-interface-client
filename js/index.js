@@ -63,7 +63,9 @@ async function run(appRoot, handler) {
     process.on("beforeExit", BeforeExitListener_1.default.invoke);
 
     /**
-     * dfox: 01 - added await keyword to line below
+     * dfox: 01 - This is the index file for the Runtime Interface Client.
+     * The UserFunction loads and initializes the handler function.
+     * I have added an await to this function.
      */
     const handlerFunc = await UserFunction.load(appRoot, handler);
     const runtime = new Runtime_1.default(client, handlerFunc, errorCallbacks);

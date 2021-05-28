@@ -26,7 +26,7 @@ RUN npm install
 
 COPY myFunction/* ${FUNCTION_DIR}
 
-# dfox: 05- overwriting these two files in the RIC
+# dfox: 05- overwriting these two files in the RIC for the purposes of this demo
 COPY ./js/UserFunction.js ./node_modules/aws-lambda-ric/lib/utils/
 COPY ./js/index.js ./node_modules/aws-lambda-ric/lib/
 

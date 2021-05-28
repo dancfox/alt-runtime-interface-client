@@ -1,6 +1,4 @@
-/**
- * dfox: 04 - customer code below
- */
+
 
 console.log("******** enter the init block ********");
 
@@ -9,7 +7,13 @@ function sleep(ms) {
 }
 
 /**
- * this is the new custom platform hook
+ * dfox: 04 - this is the lifecycle hook that would be
+ * implemented by customers. In this case we are creating
+ * a blocking call to a sleep method for 5 seconds.
+ * 
+ * If you run this example in your terminal you can see the
+ * that await is honored, the function blocks, and then 
+ * wakes up prior to invocation.
  */
 exports.initializeFunction = async () => {
   console.log("******** going to sleep for 5 seconds ********")
