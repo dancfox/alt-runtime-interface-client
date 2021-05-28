@@ -1,26 +1,23 @@
-// const fs = require('fs');
-// const testFolder = './node_modules/aws-lambda-ric';
+/**
+ * dfox: 04 - customer code below
+ */
 
-console.log("&&&&&&&& in the init block &&&&&&&&");
+console.log("******** enter the init block ********");
 
-// async function sleep(ms) {
-//   return new Promise((resolve) => setTimeout(resolve, ms)).then(() => {resolved = true});
-// }
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms)).then(() => {resolved = true});
+}
 
-// exports.init = async () => {
-//   console.log("$$$$$$$$$$$$$ before sleep $$$$$$$$$$$$$")
-//   await sleep(50)
-//   console.log("$$$$$$$$$$$$$ after sleep $$$$$$$$$$$$$")
-// }
+/**
+ * this is the new custom platform hook
+ */
+exports.initializeFunction = async () => {
+  console.log("******** going to sleep for 5 seconds ********")
+  let p = await sleep(5000);
+  console.log("******** waking up ********");
+}
 
 exports.handler = async (event, context) => {
     console.log("^^^^^^^^^ in the handler ^^^^^^^^^");
-
-    // fs.readdir(testFolder, (err, files) => {
-    //     files.forEach(file => {
-    //       console.log(file);
-    //     });
-    //   });
-
     return 'Hello World!';
 }

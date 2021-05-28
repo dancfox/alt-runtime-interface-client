@@ -37,7 +37,7 @@ const BeforeExitListener_1 = __importDefault(require("./Runtime/BeforeExitListen
 const LogPatch_1 = __importDefault(require("./utils/LogPatch"));
 const UserFunction = __importStar(require("./utils/UserFunction"));
 LogPatch_1.default.patchConsole();
-function run(appRoot, handler) {
+async function run(appRoot, handler) {
     if (!process.env.AWS_LAMBDA_RUNTIME_API) {
         throw new Error("Missing Runtime API Server configuration.");
     }
@@ -61,7 +61,11 @@ function run(appRoot, handler) {
     });
     BeforeExitListener_1.default.reset();
     process.on("beforeExit", BeforeExitListener_1.default.invoke);
-    const handlerFunc = UserFunction.load(appRoot, handler);
+
+    /**
+     * dfox: 01 - added await keyword to line below
+     */
+    const handlerFunc = await UserFunction.load(appRoot, handler);
     const runtime = new Runtime_1.default(client, handlerFunc, errorCallbacks);
     runtime.scheduleIteration();
 }

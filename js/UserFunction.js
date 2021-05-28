@@ -55,36 +55,21 @@
  function _canLoadAsFile(modulePath) {
      return fs_1.default.existsSync(modulePath) || fs_1.default.existsSync(modulePath + ".js");
  }
+
  /**
   * Attempt to load the user's module.
   * Attempts to directly resolve the module relative to the application root,
   * then falls back to the more general require().
   */
   function _tryRequire(appRoot, moduleRoot, module) {
-    console.log('********** start **************')
-    console.log('appRoot: ' + appRoot);
-    console.log('moduleRoot: ' + moduleRoot);
-    console.log('module: ' + module);
-    
     const lambdaStylePath = path_1.default.resolve(appRoot, moduleRoot, module);
-
-    console.log('lambdaStylePath: ' + lambdaStylePath);
-
      if (_canLoadAsFile(lambdaStylePath)) {
-
-        console.log('_canLoadAsFile=true');
-
         const app = require(lambdaStylePath);
-        //await app.init();
-
-        console.log('********** after require **************')
         return app;
      }
      else {
          // Why not just require(module)?
          // Because require() is relative to __dirname, not process.cwd()
-
-         console.log('nodeStylePath: ' + nodeStylePath);
 
          const nodeStylePath = require.resolve(module, {
              paths: [appRoot, moduleRoot],
@@ -119,6 +104,18 @@
          throw new Errors_1.MalformedHandlerName(`'${fullHandlerString}' is not a valid handler name. Use absolute paths when specifying root directories in handler names.`);
      }
  }
+
+/**
+ * dfox: 03- added this function
+ */
+ async function _initializeFunction(userApp) {
+    try {
+       await userApp.initializeFunction();
+    } catch (e) {
+        console.log("initializeFunction lifecycle hook doesn't exist in customer code");
+    }
+ }
+
  /**
   * Load the user's function with the approot and the handler string.
   * @param appRoot {string}
@@ -138,11 +135,17 @@
   *       for traversing up the filesystem '..')
   *   Errors for scenarios known by the runtime, will be wrapped by Runtime.* errors.
   */
- exports.load = function (appRoot, fullHandlerString) {
+ exports.load = async function (appRoot, fullHandlerString) {
      _throwIfInvalidHandler(fullHandlerString);
      const [moduleRoot, moduleAndHandler] = _moduleRootAndHandler(fullHandlerString);
      const [module, handlerPath] = _splitHandlerString(moduleAndHandler);
      const userApp = _loadUserApp(appRoot, moduleRoot, module);
+     
+     /**
+      * dfox: 02 - added this line
+      */
+     await _initializeFunction(userApp);
+     
      const handlerFunc = _resolveHandler(userApp, handlerPath);
      if (!handlerFunc) {
          throw new Errors_1.HandlerNotFound(`${fullHandlerString} is undefined or not exported`);
@@ -152,4 +155,5 @@
      }
      return handlerFunc;
  };
+
  //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVXNlckZ1bmN0aW9uLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vc3JjL3V0aWxzL1VzZXJGdW5jdGlvbi50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQSx1REFBdUQ7QUFDdkQ7Ozs7O0dBS0c7QUFFSCxZQUFZLENBQUM7Ozs7OztBQUViLGdEQUF3QjtBQUN4Qiw0Q0FBb0I7QUFFcEIsc0NBS21CO0FBRW5CLE1BQU0sYUFBYSxHQUFHLGlCQUFpQixDQUFDO0FBQ3hDLE1BQU0sdUJBQXVCLEdBQUcsSUFBSSxDQUFDO0FBRXJDOzs7OztHQUtHO0FBQ0gsU0FBUyxxQkFBcUIsQ0FBQyxpQkFBeUI7SUFDdEQsTUFBTSxhQUFhLEdBQUcsY0FBSSxDQUFDLFFBQVEsQ0FBQyxpQkFBaUIsQ0FBQyxDQUFDO0lBQ3ZELE1BQU0sVUFBVSxHQUFHLGlCQUFpQixDQUFDLFNBQVMsQ0FDNUMsQ0FBQyxFQUNELGlCQUFpQixDQUFDLE9BQU8sQ0FBQyxhQUFhLENBQUMsQ0FDekMsQ0FBQztJQUNGLE9BQU8sQ0FBQyxVQUFVLEVBQUUsYUFBYSxDQUFDLENBQUM7QUFDckMsQ0FBQztBQUVEOzs7R0FHRztBQUNILFNBQVMsbUJBQW1CLENBQUMsT0FBZTtJQUMxQyxNQUFNLEtBQUssR0FBRyxPQUFPLENBQUMsS0FBSyxDQUFDLGFBQWEsQ0FBQyxDQUFDO0lBQzNDLElBQUksQ0FBQyxLQUFLLElBQUksS0FBSyxDQUFDLE1BQU0sSUFBSSxDQUFDLEVBQUU7UUFDL0IsTUFBTSxJQUFJLDZCQUFvQixDQUFDLGFBQWEsQ0FBQyxDQUFDO0tBQy9DO0lBQ0QsT0FBTyxDQUFDLEtBQUssQ0FBQyxDQUFDLENBQUMsRUFBRSxLQUFLLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FBQyxDQUFDLDBCQUEwQjtBQUN6RCxDQUFDO0FBRUQ7O0dBRUc7QUFDSCxTQUFTLGVBQWUsQ0FBQyxNQUFXLEVBQUUsY0FBc0I7SUFDMUQsT0FBTyxjQUFjLENBQUMsS0FBSyxDQUFDLEdBQUcs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

@@ -25,7 +25,10 @@ RUN npm install aws-lambda-ric
 RUN npm install
 
 COPY myFunction/* ${FUNCTION_DIR}
-COPY UserFunction.js ./node_modules/aws-lambda-ric/lib/utils/
+
+# dfox: 05- overwriting these two files in the RIC
+COPY ./js/UserFunction.js ./node_modules/aws-lambda-ric/lib/utils/
+COPY ./js/index.js ./node_modules/aws-lambda-ric/lib/
 
 # Grab a fresh slim copy of the image to reduce the final size
 FROM node:12-buster-slim
