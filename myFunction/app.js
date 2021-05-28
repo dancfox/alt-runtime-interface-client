@@ -16,7 +16,7 @@ function sleep(ms) {
 exports.initializeFunction = async () => {
   console.log("******** sleep for 5 seconds... ********")
   let p = await sleep(5000);
-  console.log("******** wake up                 ********");
+  console.log("******** wake up                ********");
 }
 
 exports.handler = async (event, context) => {
