@@ -106,7 +106,7 @@
  }
 
 /**
- * dfox: 03 - This newly added function attempts to call
+ * dfox: 03 - This is the new lifecycle hook. It attempts to call
  * a function named "initializeFunction" within the customer code.
  */
  async function _initializeFunction(userApp) {
@@ -150,7 +150,7 @@
      /**
       * dfox: 02 - The load function is the main method within the UserFunction.
       * The customer's application is loaded in the line above.
-      * The line below calls the lifecycle hook. The await keyword 
+      * The line below calls the new lifecycle hook. The await keyword 
       * designates this function to be a blocking function.  
       */
      await _initializeFunction(userApp);
