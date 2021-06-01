@@ -1,5 +1,3 @@
-# alt-runtime-interface-client
-
 ## The Problem
 Asynchronous function calls made within the initialization block of a Lambda function are not guaranteed to complete prior to invocation. This limits the effectiveness of Provisioned Concurrency for latency sensitive customers. 
 
