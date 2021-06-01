@@ -20,4 +20,6 @@ This is a monkey-patched project that is only meant to illustrate a design direc
 
 However, I notice that the logged Init Duration does not appear to accurately reflect the actual duration of the init code. This requires further investigation.
 
+## Enhancements
+The function name is currently selected by convention, but could be customized by the customer. 
 
