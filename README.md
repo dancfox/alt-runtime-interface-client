@@ -15,11 +15,6 @@ The easiest way to review the code is to download the application and then searc
 
 3. Open a second terminal and execute `./curl.sh`
 
-## Open Issues
-This is a monkey-patched project that is only meant to illustrate a design direction and establish technical feasibility. A production version should be extended from the typescript project, and include proper testing and error handling.  
-
-However, I notice that the logged Init Duration does not appear to accurately reflect the actual duration of the init code. This requires further investigation.
-
 ## Enhancements
 The function name is currently selected by convention, but could be customized by the customer. 
 
